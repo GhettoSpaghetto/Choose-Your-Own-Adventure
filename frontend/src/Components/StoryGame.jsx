@@ -1,3 +1,4 @@
+
 import {useState, useEffect} from 'react';
 
 function StoryGame({story, onNewStory}) {
@@ -20,7 +21,7 @@ function StoryGame({story, onNewStory}) {
 
             setCurrentNode(node)
             setIsEnding(node.is_ending)
-            setIsWinningEnding(node.is_winning_endig)
+            setIsWinningEnding(node.is_winning_ending)
 
             if (!node.is_ending && node.options && node.options.length > 0) {
                 setOptions(node.options)
