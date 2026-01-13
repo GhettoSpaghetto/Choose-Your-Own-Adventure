@@ -1,0 +1,31 @@
+databases:
+  - name: fastapi-db
+    databaseName: fastapi_backend
+    user: fastapi_user
+    plan: free
+    ipAllowList: []
+
+services:
+  - type: web
+    name: fastapi-backend
+    runtime: python
+    env: python
+    plan: free
+
+    buildCommand: "pip install uv && uv sync"
+
+    startCommand: "uv run uvicorn main:app --host 0.0.0.0 --port $PORT"
+
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11
+
+      - key: DATABASE_URL
+        sync: false
+
+      - key: GOOGLE_API_KEY
+        sync: false
+
+        fromDatabase:
+          name: fastapi-db
+          property: connectionString
