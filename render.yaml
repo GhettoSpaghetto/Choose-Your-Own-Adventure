@@ -1,0 +1,30 @@
+databases:
+  - name: fastapi-db
+    databaseName: fastapi_backend
+    user: fastapi_user
+    plan: free
+    ipAllowList: []
+
+services:
+  - type: web
+    name: fastapi-backend
+    env: python
+    plan: free
+    rootDir: backend
+
+    buildCommand: pip install uv && uv sync
+    startCommand: uv run uvicorn main:app --host 0.0.0.0 --port $PORT
+
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.1
+
+      # ✅ Auto-injected from Render Postgres
+      - key: DATABASE_URL
+        fromDatabase:
+          name: fastapi-db
+          property: connectionString
+
+      # ✅ Set manually in Render dashboard
+      - key: GOOGLE_API_KEY
+        sync: false
