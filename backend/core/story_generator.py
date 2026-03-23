@@ -36,10 +36,7 @@ class StoryGenerator:
                 "Get a free API key from: https://makersuite.google.com/app/apikey"
             )
 
-        # Correct model names for Gemini:
-        # - "gemini-pro" (older, stable)
-        # - "gemini-1.5-pro-latest" (latest pro version)
-        # - "gemini-1.5-flash-latest" (latest flash version - faster and free)
+        
         return ChatGoogleGenerativeAI(
             model="gemini-2.5-flash",
             google_api_key=google_api_key,
@@ -51,13 +48,13 @@ class StoryGenerator:
         llm = cls._get_llm()
         story_parser = PydanticOutputParser(pydantic_object=StoryLLMResponse)
 
-        # Get format instructions
+        
         format_instructions = story_parser.get_format_instructions()
         
-        # Build the complete prompt as a string (no template variables)
+        
         complete_prompt = f"{STORY_PROMPT}\n\n{format_instructions}\n\nCreate the story with this theme: {theme}"
 
-        # Invoke directly with the string
+    
         raw_response = llm.invoke(complete_prompt)
 
         response_text = raw_response
